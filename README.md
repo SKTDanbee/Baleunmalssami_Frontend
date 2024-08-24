@@ -1,6 +1,6 @@
-# ansim_keypad
+# Ansim_KeyPad_Frontend
 
-A new Flutter project.
+바른말ㅆ미 is a project using Flutter for Android app.
 
 ## Getting Started
 
