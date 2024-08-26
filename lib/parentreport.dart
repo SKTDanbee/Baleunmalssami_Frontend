@@ -14,7 +14,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
   String? reportDate;
   String? reportContent;
   List<int> abuseWeek = [];
-  bool isLoading = true;
+  bool isLoading = false; //로딩창!!!
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://b4b6-203-236-8-208.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    final String url = 'https://6ccc-203-236-8-208.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
       final response = await _dio.get(url);
@@ -39,7 +39,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
             if (i == 0) {
               // 첫 번째 투플의 report_date와 report_content 저장
               reportDate = data[i]['report_date'];
-              reportContent = data[i]['report'];
+              reportContent = data[i]['report_parent'];
             }
           }
 
@@ -58,7 +58,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '나의 레포트',
+          '자녀1의 레포트',
           style: TextStyle(color: Color(0xFF333333), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
@@ -187,7 +187,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
                       ),
                       const SizedBox(height: 16),
                       const Text(
-                        '이번주에 내가 가장 많이 사용한 욕설은?\n',
+                        '이번주에 자녀1의 언어습관은?\n',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'parenthome.dart';
+import 'parentlogin.dart';
 import 'package:http/http.dart' as http;
 
 class ParentSignUpPage extends StatefulWidget {
@@ -11,6 +11,7 @@ class ParentSignUpPage extends StatefulWidget {
 class _ParentSignUpPageState extends State<ParentSignUpPage> {
   final _emailController = TextEditingController();
   final _verificationCodeController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isAllChecked = false;
@@ -42,6 +43,21 @@ class _ParentSignUpPageState extends State<ParentSignUpPage> {
               controller: _emailController,
               decoration: const InputDecoration(
                 hintText: '이메일을 입력해주세요.',
+                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              '보호자 전화번호',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _phoneController,
+              decoration: const InputDecoration(
+                hintText: '전화번호를 입력해주세요.',
                 border: OutlineInputBorder(),
                 filled: true,
                 fillColor: Colors.white,
@@ -155,54 +171,61 @@ class _ParentSignUpPageState extends State<ParentSignUpPage> {
     String email = _emailController.text;
     String name = _nameController.text;
     String password = _passwordController.text;
-    String verificationCode = _verificationCodeController.text;
+    String phone = _phoneController.text;
+    String code = _verificationCodeController.text;
 
     // 인증번호 확인 API
-    await verifyCode(verificationCode);
-    await registerUser(email, name, password);
+    await registerUserParents(email, name, password, phone, code);
+    await registerUser2(email);
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ParentHomePage()),
+      MaterialPageRoute(builder: (context) => ParentLoginPage()),
     );
   }
 
-  var code;
+  // 데이터베이스 연결
+  Future<bool> registerUserParents(String email, String name, String password, String phone, String code) async {
+    const String apiUrl = "https://c903-203-236-8-208.ngrok-free.app/parents/"; //url 입력
 
-  Future<bool> verifyCode(String verificationCode) async {
-    // 백엔드와 통신 - 인증번호 확인
-    final response = await http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        "id": email,
+        "password": password,
+        "name": name,
+        "phone_number": phone,
+        "verification_code": code,
+      }),
+    );
 
     if (response.statusCode == 200) {
-      // 서버 연결 되면 승인
-      return true;
+      return true; // 성공
     } else {
-      // 서버 연결 실패
-      throw Exception('오류가 발생했습니다. 다시 시도해주십시오.');
+      return false; // 실패
     }
   }
-}
 
-// 데이터베이스 연결
-Future<bool> registerUser(String email, String name, String password) async {
-  const String apiUrl = "http"; //url 입력
+  Future<bool> registerUser2(String email) async {
+    const String apiUrl2 = "https://c903-203-236-8-208.ngrok-free.app/children/";
 
-  final response = await http.post(
-    Uri.parse(apiUrl),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode({
-      "id": email,
-      "password": password,
-      "name": name,
-    }),
-  );
+    final response = await http.post(
+      Uri.parse(apiUrl2),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        "parent_id": email,
+      }),
+    );
 
-  if (response.statusCode == 200) {
-    return true; // 성공
-  } else {
-    return false; // 실패
+    if (response.statusCode == 200) {
+      return true; // 성공
+    } else {
+      return false; // 실패
+    }
   }
 }

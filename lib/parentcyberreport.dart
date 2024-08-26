@@ -11,7 +11,7 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
   Dio _dio = Dio();
   String? reportDate;
   String? reportContent;
-  bool isLoading = true;
+  bool isLoading = false; //로딩창!!
 
   @override
   void initState() {
@@ -20,7 +20,7 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://b4b6-203-236-8-208.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    final String url = 'https://6ccc-203-236-8-208.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
       final response = await _dio.get(url);
@@ -33,7 +33,7 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
             if (i == 0) {
               // 첫 번째 투플의 report_date와 report_content 저장
               reportDate = data[i]['report_date'];
-              reportContent = data[i]['report'];
+              reportContent = data[i]['report_cyber'];
             }
           }
 
@@ -52,7 +52,7 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '나의 레포트',
+          '자녀1의 사이버폭력 레포트',
           style: TextStyle(color: Color(0xFF333333), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,

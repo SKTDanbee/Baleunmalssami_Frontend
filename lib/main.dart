@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'signup.dart'; // 학생 회원가입 페이지
-import 'login.dart';
-import 'home.dart';
 import 'parentsignup.dart'; // 보호자 회원가입 페이지
+import 'login.dart';
+import 'parentlogin.dart';
+import 'home.dart';
 import 'parenthome.dart';
 
 void main() {
@@ -38,7 +39,7 @@ class MainPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SignUpPage()), // 학생 회원가입 페이지
+                  MaterialPageRoute(builder: (context) => HomePage()), // 학생 회원가입 페이지
                 );
               },
               style: ElevatedButton.styleFrom(

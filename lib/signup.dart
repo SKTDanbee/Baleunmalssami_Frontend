@@ -193,9 +193,10 @@ class _SignUpPageState extends State<SignUpPage> {
     String email = _emailController.text;
     String name = _nameController.text;
     String password = _passwordController.text;
+    String phone = _phoneController.text;
 
     // 백엔드 통신
-    await registerUser(email, name, password);
+    await registerUser(email, name, password, phone);
 
     Navigator.push(
       context,
@@ -204,8 +205,8 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
 // 데이터베이스 연결
- Future<bool> registerUser(String email, String name, String password) async {
-   const String apiUrl = "https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/child/";
+ Future<bool> registerUser(String email, String name, String password, String phone) async {
+   const String apiUrl = "https://c903-203-236-8-208.ngrok-free.app/children/";
 
    final response = await http.post(
      Uri.parse(apiUrl),
@@ -216,6 +217,7 @@ class _SignUpPageState extends State<SignUpPage> {
        "id": email,
        "password": password,
        "name": name,
+       "parent_phone_number": phone,
      }),
    );
 

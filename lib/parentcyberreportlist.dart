@@ -14,8 +14,8 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
 
   Dio _dio = Dio();
   List<String> dateList = [];
-  List<int> abuseWeek = [];
-  bool isLoading = true;
+  List<String> cyberdegree = [];
+  bool isLoading = false; //로딩창!!!
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://b4b6-203-236-8-208.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    final String url = 'https://6ccc-203-236-8-208.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
       final response = await _dio.get(url);
@@ -34,11 +34,18 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
 
         setState(() {
           dateList.clear();
-          abuseWeek.clear();
+          cyberdegree.clear();
+
+          cyberdegree.add('높음');
+          cyberdegree.add('중간');
+          cyberdegree.add('중간');
+          cyberdegree.add('낮음');
+          cyberdegree.add('낮음');
+          cyberdegree.add('낮음');
+          cyberdegree.add('낮음');
 
           for (var report in data) {
             dateList.add(report['report_date']);
-            abuseWeek.add(report['abuse_count']);
           }
 
           isLoading = false;
@@ -50,7 +57,6 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
       throw Exception('Failed to load reports: $e');
     }
   }
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -81,7 +87,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '자녀1의 레포트',
+          '자녀1의 사이버 폭력 레포트',
           style: TextStyle(color: Color(0xFF333333), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
@@ -108,7 +114,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
                   MaterialPageRoute(
                     builder: (context) => ReportPage(
                       week: dateList[index],
-                      usage: '주 욕설 사용량: ${abuseWeek[index]}회',
+                      usage: '${cyberdegree[index]}',
                     ),
                   ),
                 );
@@ -133,10 +139,14 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        '주 욕설 사용량: ${abuseWeek[index]}회',
+                        '위험도: ${cyberdegree[index]}',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Color(0xFF777777),
+                          color: cyberdegree[index] == '높음'
+                              ? Colors.red
+                              : cyberdegree[index] == '중간'
+                              ? Color(0xFFFF7B1B)
+                              : Color(0xFF777777),
                         ),
                       ),
                     ],
@@ -222,4 +232,3 @@ class ReportPage extends StatelessWidget {
     );
   }
 }
-

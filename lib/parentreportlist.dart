@@ -15,7 +15,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
   Dio _dio = Dio();
   List<String> dateList = [];
   List<int> abuseWeek = [];
-  bool isLoading = true;
+  bool isLoading = false; //로딩창!!!
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://b4b6-203-236-8-208.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    final String url = 'https://6ccc-203-236-8-208.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
       final response = await _dio.get(url);
@@ -81,7 +81,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '나의 레포트',
+          '자녀1의 레포트',
           style: TextStyle(color: Color(0xFF333333), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,

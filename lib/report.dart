@@ -13,7 +13,7 @@ class _ReportPageState extends State<ReportPage> {
   String? reportDate;
   String? reportContent;
   List<int> abuseWeek = [];
-  bool isLoading = true;
+  bool isLoading = false; //로딩창!!!
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    final String url = 'https://6ccc-203-236-8-208.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
       final response = await _dio.get(url);
