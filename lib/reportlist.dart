@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'report.dart';  // 이전 레포트를 클릭했을 때 열리는 페이지
+import 'report.dart';  // report.dart 파일로 직접 연결
 import 'friends.dart';  // 친구 페이지
 import 'settings.dart';  // 설정 페이지
 import 'package:dio/dio.dart';
@@ -16,7 +16,7 @@ class _ReportListPageState extends State<ReportListPage> {
   Dio _dio = Dio();
   List<String> dateList = [];
   List<int> abuseWeek = [];
-  bool isLoading = false; //로딩창!!!
+  bool isLoading = true; //로딩창!!!
 
   @override
   void initState() {
@@ -114,8 +114,7 @@ class _ReportListPageState extends State<ReportListPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ReportPage(
-                      week: dateList[index],
-                      usage: '주 욕설 사용량: ${abuseWeek[index]}회',
+                      index: index,
                     ),
                   ),
                 );
@@ -197,42 +196,6 @@ class _ReportListPageState extends State<ReportListPage> {
             label: '설정',
           ),
         ],
-      ),
-      backgroundColor: Color(0xFFF5F5F5),
-    );
-  }
-}
-
-class ReportPage extends StatelessWidget {
-  final String week;
-  final String usage;
-
-  ReportPage({required this.week, required this.usage});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '$week',
-          style: TextStyle(color: Color(0xFF333333)),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color(0xFF333333)),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text(
-          '$week의 레포트 페이지입니다.\n$usage',
-          style: TextStyle(fontSize: 16, color: Color(0xFF333333)),
-          textAlign: TextAlign.center,
-        ),
       ),
       backgroundColor: Color(0xFFF5F5F5),
     );

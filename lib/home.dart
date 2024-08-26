@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
         abuseCounts_last: abuseCounts_last,
         reportDate: reportDate,
       ),
-      ReportPage(),
+      ReportPage(index: 0),
       FriendsPage(),
       SettingsPage(),
     ];
@@ -249,7 +249,7 @@ class HomePageContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ReportPage()),
+                            builder: (context) => ReportPage(index: 0)),
                       );
                     },
                     child: Card(

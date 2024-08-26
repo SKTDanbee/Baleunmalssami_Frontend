@@ -5,6 +5,9 @@ import 'parentreportlist.dart';
 import 'parentcyberreportlist.dart';
 
 class ParentReportPage extends StatefulWidget {
+  final int index;
+
+  ParentReportPage({required this.index});
   @override
   _ParentReportPageState createState() => _ParentReportPageState();
 }
@@ -36,7 +39,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
 
           for (var i = 0; i < data.length; i++) {
             abuseWeek.add(data[i]['abuse_count']);
-            if (i == 0) {
+            if (i == widget.index) {
               // 첫 번째 투플의 report_date와 report_content 저장
               reportDate = data[i]['report_date'];
               reportContent = data[i]['report_parent'];
@@ -168,7 +171,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
                             lineBarsData: [
                               LineChartBarData(
                                 spots: List.generate(5, (index) {
-                                  int adjustedIndex = 4 - index;
+                                  int adjustedIndex = widget.index + 4 - index;
                                   return FlSpot(
                                     index.toDouble(),
                                     abuseWeek.length > adjustedIndex

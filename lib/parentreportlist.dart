@@ -106,9 +106,8 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ReportPage(
-                      week: dateList[index],
-                      usage: '주 욕설 사용량: ${abuseWeek[index]}회',
+                    builder: (context) => ParentReportPage(
+                      index: index,
                     ),
                   ),
                 );
@@ -186,41 +185,4 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
     );
   }
 }
-
-class ReportPage extends StatelessWidget {
-  final String week;
-  final String usage;
-
-  ReportPage({required this.week, required this.usage});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '$week',
-          style: TextStyle(color: Color(0xFF333333)),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color(0xFF333333)),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text(
-          '$week의 레포트 페이지입니다.\n$usage',
-          style: TextStyle(fontSize: 16, color: Color(0xFF333333)),
-          textAlign: TextAlign.center,
-        ),
-      ),
-      backgroundColor: Color(0xFFF5F5F5),
-    );
-  }
-}
-
 

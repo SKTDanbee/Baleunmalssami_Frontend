@@ -3,6 +3,10 @@ import 'package:dio/dio.dart';
 import 'parentcyberreportlist.dart';
 
 class ParentCyberReportPage extends StatefulWidget {
+  final int index;
+
+  ParentCyberReportPage({required this.index});
+
   @override
   _ParentCyberReportPageState createState() => _ParentCyberReportPageState();
 }

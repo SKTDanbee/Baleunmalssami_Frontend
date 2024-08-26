@@ -62,7 +62,7 @@ class _ParentHomePageState extends State<ParentHomePage> {
         abuseCounts_last: abuseCounts_last,
         reportDate: reportDate,
       ),
-      ParentReportPage(),
+      ParentReportPage(index: 0),
       ParentSettingsPage(),
     ];
 
@@ -237,7 +237,7 @@ class ParentHomePageContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ParentReportPage()),
+                            builder: (context) => ParentReportPage(index: 0)),
                       );
                     },
                     child: Card(
@@ -282,7 +282,7 @@ class ParentHomePageContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ParentCyberReportPage()),
+                            builder: (context) => ParentCyberReportPage(index: 0)),
                       );
                     },
                     child: Card(

@@ -4,6 +4,10 @@ import 'package:dio/dio.dart';
 import 'reportlist.dart';
 
 class ReportPage extends StatefulWidget {
+  final int index;  // 추가된 부분: ReportListPage에서 전달받은 index 값
+
+  ReportPage({required this.index});  // index 값 필수로 받도록 생성자 수정
+
   @override
   _ReportPageState createState() => _ReportPageState();
 }
@@ -13,7 +17,7 @@ class _ReportPageState extends State<ReportPage> {
   String? reportDate;
   String? reportContent;
   List<int> abuseWeek = [];
-  bool isLoading = false; //로딩창!!!
+  bool isLoading = false; // 로딩창!!!
 
   @override
   void initState() {
@@ -22,7 +26,8 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    final String url =
+        'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
       final response = await _dio.get(url);
@@ -35,8 +40,8 @@ class _ReportPageState extends State<ReportPage> {
 
           for (var i = 0; i < data.length; i++) {
             abuseWeek.add(data[i]['abuse_count']);
-            if (i == 0) {
-              // 첫 번째 투플의 report_date와 report_content 저장
+            if (i == widget.index) {
+              // index에 해당하는 투플의 report_date와 report_content 저장
               reportDate = data[i]['report_date'];
               reportContent = data[i]['report'];
             }
@@ -144,8 +149,8 @@ class _ReportPageState extends State<ReportPage> {
                               ),
                               rightTitles: AxisTitles(
                                 sideTitles: SideTitles(
-                                  showTitles: true,  // Y축 표시 설정
-                                  reservedSize: 15,  // 텍스트가 깨지지 않도록 공간 확보
+                                  showTitles: true, // Y축 표시 설정
+                                  reservedSize: 15, // 텍스트가 깨지지 않도록 공간 확보
                                   getTitlesWidget: (value, meta) {
                                     return Text(
                                       value.toInt().toString(),
@@ -163,11 +168,12 @@ class _ReportPageState extends State<ReportPage> {
                             maxX: 4,
                             minY: 0,
                             maxY: abuseWeek.isNotEmpty
-                                ? abuseWeek.reduce((a, b) => a > b ? a : b).toDouble() + 10 : 10,
+                                ? abuseWeek.reduce((a, b) => a > b ? a : b).toDouble() + 10
+                                : 10,
                             lineBarsData: [
                               LineChartBarData(
                                 spots: List.generate(5, (index) {
-                                  int adjustedIndex = 4 - index;
+                                  int adjustedIndex = widget.index + 4 - index;
                                   return FlSpot(
                                     index.toDouble(),
                                     abuseWeek.length > adjustedIndex
