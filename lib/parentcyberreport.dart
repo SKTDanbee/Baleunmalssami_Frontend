@@ -34,7 +34,7 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
 
         setState(() {
           for (var i = 0; i < data.length; i++) {
-            if (i == 0) {
+            if (i == widget.index) {
               // 첫 번째 투플의 report_date와 report_content 저장
               reportDate = data[i]['report_date'];
               reportContent = data[i]['report_cyber'];
