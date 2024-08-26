@@ -24,7 +24,7 @@ class _ParentHomePageState extends State<ParentHomePage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://6ccc-203-236-8-208.ngrok-free.app/reports/'; // 여기에 실제 데이터베이스 URL을 입력하세요.
+    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 여기에 실제 데이터베이스 URL을 입력하세요.
 
     try {
       final response = await _dio.get(url);
@@ -57,7 +57,7 @@ class _ParentHomePageState extends State<ParentHomePage> {
     final List<Widget> _pages = [
       isLoading
           ? const Center(child: CircularProgressIndicator())
-          : HomePageContent(
+          : ParentHomePageContent(
         abuseCounts: abuseCounts,
         abuseCounts_last: abuseCounts_last,
         reportDate: reportDate,
@@ -114,12 +114,12 @@ class _ParentHomePageState extends State<ParentHomePage> {
   }
 }
 
-class HomePageContent extends StatelessWidget {
+class ParentHomePageContent extends StatelessWidget {
   final int? abuseCounts;
   final int? abuseCounts_last;
   final String? reportDate;
 
-  HomePageContent({
+  ParentHomePageContent({
     required this.abuseCounts,
     required this.abuseCounts_last,
     required this.reportDate,

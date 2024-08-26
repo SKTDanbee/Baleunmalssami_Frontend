@@ -186,7 +186,7 @@ class _ParentSignUpPageState extends State<ParentSignUpPage> {
 
   // 데이터베이스 연결
   Future<bool> registerUserParents(String email, String name, String password, String phone, String code) async {
-    const String apiUrl = "https://c903-203-236-8-208.ngrok-free.app/parents/"; //url 입력
+    const String apiUrl = "https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/parents/"; //url 입력
 
     final response = await http.post(
       Uri.parse(apiUrl),
@@ -210,7 +210,7 @@ class _ParentSignUpPageState extends State<ParentSignUpPage> {
   }
 
   Future<bool> registerUser2(String email) async {
-    const String apiUrl2 = "https://c903-203-236-8-208.ngrok-free.app/children/";
+    const String apiUrl2 = "https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/children/";
 
     final response = await http.post(
       Uri.parse(apiUrl2),

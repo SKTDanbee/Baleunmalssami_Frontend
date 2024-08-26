@@ -4,15 +4,15 @@ class FriendsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, String>> friends = [
-      {"rank": "1", "name": "김현동", "usage": "주 욕설 사용량 : 83회"},
-      {"rank": "2", "name": "김호준", "usage": "주 욕설 사용량 : 83회"},
-      {"rank": "3", "name": "배성욱", "usage": "주 욕설 사용량 : 83회"},
-      {"rank": "4", "name": "옥지원", "usage": "월 욕설 사용량 : 83회"},
-      {"rank": "5", "name": "손서희", "usage": "월 욕설 사용량 : 83회"},
-      {"rank": "6", "name": "김철수", "usage": "월 욕설 사용량 : 83회"},
-      {"rank": "7", "name": "이영희", "usage": "월 욕설 사용량 : 83회"},
-      {"rank": "8", "name": "이영희", "usage": "월 욕설 사용량 : 83회"},
-      {"rank": "9", "name": "이영희", "usage": "월 욕설 사용량 : 83회"},
+      {"rank": "1", "name": "손서희", "usage": "주 욕설 사용량 : 2회"},
+      {"rank": "2", "name": "김호준", "usage": "주 욕설 사용량 : 6회"},
+      {"rank": "3", "name": "배성욱", "usage": "주 욕설 사용량 : 15회"},
+      {"rank": "4", "name": "옥지원", "usage": "월 욕설 사용량 : 24회"},
+      {"rank": "5", "name": "김현동", "usage": "월 욕설 사용량 : 25회"},
+      {"rank": "6", "name": "김철수", "usage": "월 욕설 사용량 : 42회"},
+      {"rank": "7", "name": "이영희", "usage": "월 욕설 사용량 : 49회"},
+      {"rank": "8", "name": "홍길동", "usage": "월 욕설 사용량 : 55회"},
+      {"rank": "9", "name": "이효민", "usage": "월 욕설 사용량 : 80회"},
     ];
 
     return Scaffold(
@@ -64,7 +64,7 @@ class FriendsPage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '이번주 욕설 사용량 : 83회',
+                      '이번주 욕설 사용량 : 25회',
                       style: TextStyle(
                         fontSize: 14,
                         color: Color(0xFF777777),

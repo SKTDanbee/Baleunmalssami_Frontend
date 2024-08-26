@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup.dart'; // 학생 회원가입 페이지
 import 'parentsignup.dart'; // 보호자 회원가입 페이지
-import 'login.dart';
-import 'parentlogin.dart';
 import 'home.dart';
 import 'parenthome.dart';
 
