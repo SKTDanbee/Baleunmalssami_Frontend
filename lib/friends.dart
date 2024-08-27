@@ -11,8 +11,8 @@ class _FriendsPageState extends State<FriendsPage> {
   Dio _dio = Dio();
   List<Map<String, dynamic>> friends = [];
   int? myAbuseCount;
-  String? myName;  // 예시로 내 이름을 지정, 실제 이름은 사용자에 따라 달라짐
-  bool isLoading = true;
+  String? myName;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -21,7 +21,7 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Future<void> fetchFriendsData() async {
-    const String myUrl = 'https://your-api-url/reports/';  // reports API 엔드포인트
+    const String myUrl = 'https://your-api-url/children/';  // reports API 엔드포인트
     const String reportsUrl = 'https://your-api-url/reports/';  // reports API 엔드포인트
     const String friendsUrl = 'https://your-api-url/friends/';  // friends API 엔드포인트
 
@@ -31,7 +31,7 @@ class _FriendsPageState extends State<FriendsPage> {
       if (myResponse.statusCode == 200) {
         myName = myResponse.data[0]['name'];
       } else {
-        throw Exception('Failed to load report data');
+        throw Exception('Failed to load data');
       }
 
       // reports 테이블의 0번 인덱스 데이터를 가져옴 (자신의 abuseCount)
@@ -39,7 +39,7 @@ class _FriendsPageState extends State<FriendsPage> {
       if (reportsResponse.statusCode == 200) {
         myAbuseCount = reportsResponse.data[0]['abuse_count'];
       } else {
-        throw Exception('Failed to load report data');
+        throw Exception('Failed to load data');
       }
 
       // friends 테이블의 데이터를 가져옴
@@ -63,10 +63,11 @@ class _FriendsPageState extends State<FriendsPage> {
         throw Exception('Failed to load friends data');
       }
     } catch (e) {
-      print('Error: $e');
-      setState(() {
-        isLoading = false;
-      });
+      throw Exception('Error: $e');
+      // print('Error: $e');
+      // setState(() {
+      //   isLoading = false;
+      // });
     }
   }
 

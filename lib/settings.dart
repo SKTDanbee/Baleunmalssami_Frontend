@@ -29,7 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -52,11 +52,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(  // 카드 내부에 패딩 추가
-                padding: const EdgeInsets.all(10.0),  // 패딩을 추가하여 여백 확보
+                padding: const EdgeInsets.all(5.0),  // 패딩을 추가하여 여백 확보
                 child: Column(
                   children: [
                     SwitchListTile(
-                      title: const Text('푸시 알림'),
+                      title: const Text(' 푸시 알림'),
                       value: _pushNotification,
                       activeColor: const Color(0xFFFF7B1B),  // 스위치가 ON 상태일 때 색상 지정
                       onChanged: (bool value) {
@@ -73,7 +73,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                     SwitchListTile(
-                      title: const Text('소리'),
+                      title: const Text(' 소리'),
                       value: _sound,
                       activeColor: const Color(0xFFFF7B1B),  // 스위치가 ON 상태일 때 색상 지정
                       onChanged: (bool value) {
@@ -90,7 +90,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                     SwitchListTile(
-                      title: const Text('진동'),
+                      title: const Text(' 진동'),
                       value: _vibration,
                       activeColor: const Color(0xFFFF7B1B),  // 스위치가 ON 상태일 때 색상 지정
                       onChanged: (bool value) {
@@ -122,10 +122,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(  // 카드 내부에 패딩 추가
-                padding: const EdgeInsets.all(10.0),  // 원하는 패딩 값 설정
+                padding: const EdgeInsets.all(5.0),  // 원하는 패딩 값 설정
                 child: ListTile(
                     title: const Text(
-                      '오작동 비속어 신고하기',
+                      ' 오작동 비속어 신고하기',
                       style: TextStyle(
                         fontSize: 16,
                         color: Color(0xFF333333),
@@ -190,5 +190,4 @@ class _SettingsPageState extends State<SettingsPage> {
       },
     );
   }
-
 }
