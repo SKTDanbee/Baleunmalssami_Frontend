@@ -160,7 +160,7 @@ class _ParentSignUpPageState extends State<ParentSignUpPage> {
               children: [
                 Expanded(
                   child: CheckboxListTile(
-                    title: const Text('개인정보 수집 동의(필수)'),
+                    title: const Text('개인정보 동의(필수)'),
                     value: _isAgreement2Checked,
                     activeColor: const Color(0xFFFF7B1B),
                     controlAffinity: ListTileControlAffinity.leading,
@@ -323,7 +323,7 @@ class _ParentSignUpPageState extends State<ParentSignUpPage> {
         return AlertDialog(
           backgroundColor: Colors.white,
           title: const Text(
-            '개인정보 수집 동의',
+            '개인정보 동의',
             style: TextStyle(fontSize: 18),
           ),
           content: SingleChildScrollView(
