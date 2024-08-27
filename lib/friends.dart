@@ -1,20 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'managefriend.dart';
 
-class FriendsPage extends StatelessWidget {
+class FriendsPage extends StatefulWidget {
+  @override
+  _FriendsPageState createState() => _FriendsPageState();
+}
+
+class _FriendsPageState extends State<FriendsPage> {
+  Dio _dio = Dio();
+  List<Map<String, dynamic>> friends = [];
+  int? myAbuseCount;
+  String? myName;  // 예시로 내 이름을 지정, 실제 이름은 사용자에 따라 달라짐
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchFriendsData();
+  }
+
+  Future<void> fetchFriendsData() async {
+    final String myUrl = 'https://your-api-url/reports/';  // reports API 엔드포인트
+    final String reportsUrl = 'https://your-api-url/reports/';  // reports API 엔드포인트
+    final String friendsUrl = 'https://your-api-url/friends/';  // friends API 엔드포인트
+
+    try {
+      // reports 테이블의 0번 인덱스 데이터를 가져옴 (자신의 abuseCount)
+      final myResponse = await _dio.get(myUrl);
+      if (myResponse.statusCode == 200) {
+        myName = myResponse.data[0]['name'];
+      } else {
+        throw Exception('Failed to load report data');
+      }
+
+      // reports 테이블의 0번 인덱스 데이터를 가져옴 (자신의 abuseCount)
+      final reportsResponse = await _dio.get(reportsUrl);
+      if (reportsResponse.statusCode == 200) {
+        myAbuseCount = reportsResponse.data[0]['abuse_count'];
+      } else {
+        throw Exception('Failed to load report data');
+      }
+
+      // friends 테이블의 데이터를 가져옴
+      final friendsResponse = await _dio.get(friendsUrl);
+      if (friendsResponse.statusCode == 200) {
+        friends = List<Map<String, dynamic>>.from(friendsResponse.data);
+
+        // 자신의 데이터를 friends 리스트에 추가
+        friends.add({
+          "name": myName,
+          "abuse_count": myAbuseCount,
+        });
+
+        // abuseCount가 작은 순서대로 친구들을 정렬
+        friends.sort((a, b) => a['abuse_count'].compareTo(b['abuse_count']));
+
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load friends data');
+      }
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> friends = [
-      {"rank": "1", "name": "손서희", "usage": "주 욕설 사용량 : 2회"},
-      {"rank": "2", "name": "김호준", "usage": "주 욕설 사용량 : 6회"},
-      {"rank": "3", "name": "배성욱", "usage": "주 욕설 사용량 : 15회"},
-      {"rank": "4", "name": "옥지원", "usage": "월 욕설 사용량 : 24회"},
-      {"rank": "5", "name": "김현동", "usage": "월 욕설 사용량 : 25회"},
-      {"rank": "6", "name": "김철수", "usage": "월 욕설 사용량 : 42회"},
-      {"rank": "7", "name": "이영희", "usage": "월 욕설 사용량 : 49회"},
-      {"rank": "8", "name": "홍길동", "usage": "월 욕설 사용량 : 55회"},
-      {"rank": "9", "name": "이효민", "usage": "월 욕설 사용량 : 80회"},
-    ];
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -31,7 +88,9 @@ class FriendsPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Column(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
         children: [
           Container(
             padding: const EdgeInsets.all(32.0),
@@ -52,20 +111,20 @@ class FriendsPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '지금 나는? 5위',
-                      style: TextStyle(
+                      '지금 나는? ${friends.indexWhere((friend) => friend['name'] == myName) + 1}위',
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF333333),
                       ),
                     ),
                     Text(
-                      '이번주 욕설 사용량 : 25회',
-                      style: TextStyle(
+                      '이번주 욕설 사용량 : ${myAbuseCount ?? 0}회',
+                      style: const TextStyle(
                         fontSize: 14,
                         color: Color(0xFF777777),
                       ),
@@ -74,7 +133,12 @@ class FriendsPage extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    // 친구 관리 페이지로 이동하는 로직 (아직 구현되지 않음)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ManageFriendPage()
+                      ),
+                    );
                   },
                   child: const Text(
                     '친구 관리하기',
@@ -96,22 +160,24 @@ class FriendsPage extends StatelessWidget {
                   children: [
                     ListTile(
                       leading: Text(
-                        friends[index]['rank']!,
+                        '${index + 1}',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: index == 4 ? const Color(0xFFFF7B1B) : const Color(0xFF333333),
+                          color: friends[index]['name'] == myName
+                              ? const Color(0xFFFF7B1B)
+                              : const Color(0xFF333333),
                         ),
                       ),
                       title: Text(
-                        friends[index]['name']!,
+                        friends[index]['name'],
                         style: const TextStyle(
                           fontSize: 16,
                           color: Color(0xFF333333),
                         ),
                       ),
                       subtitle: Text(
-                        friends[index]['usage']!,
+                        '주 욕설 사용량 : ${friends[index]['abuse_count']}회',
                         style: const TextStyle(
                           fontSize: 14,
                           color: Color(0xFF777777),
