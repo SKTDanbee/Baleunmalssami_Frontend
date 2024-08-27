@@ -26,7 +26,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("사용자 선택"),
+        title: const Text("사용자 선택"),
         backgroundColor: Colors.blueAccent,
       ),
       body: Center(
@@ -41,12 +41,12 @@ class MainPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                textStyle: TextStyle(fontSize: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                textStyle: const TextStyle(fontSize: 18),
               ),
-              child: Text("학생용"),
+              child: const Text("학생용"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -55,10 +55,10 @@ class MainPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                textStyle: TextStyle(fontSize: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                textStyle: const TextStyle(fontSize: 18),
               ),
-              child: Text("학부모용"),
+              child: const Text("학부모용"),
             ),
           ],
         ),

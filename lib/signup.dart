@@ -182,10 +182,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
       // 응답 본문 확인
       final responseBody = await response.stream.bytesToString();
-      print('Response Text: $responseBody');
+      throw Exception('Response Text: $responseBody');
+      //print('Response Text: $responseBody');
 
     } catch (e) {
-      print('Error occurred: $e');
+      throw Exception('Error occurred: $e');
+      //print('Error occurred: $e');
     }
   }
 

@@ -24,7 +24,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
       final response = await _dio.get(url);
@@ -86,14 +86,14 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '자녀1의 사이버 폭력 레포트',
           style: TextStyle(color: Color(0xFF333333), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color(0xFF333333)),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF333333)),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -101,7 +101,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
         centerTitle: true,
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
@@ -131,12 +131,12 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
                     children: [
                       Text(
                         dateList[index],
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF333333)),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         '위험도: ${cyberdegree[index]}',
                         style: TextStyle(
@@ -144,8 +144,8 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
                           color: cyberdegree[index] == '높음'
                               ? Colors.red
                               : cyberdegree[index] == '중간'
-                              ? Color(0xFFFF7B1B)
-                              : Color(0xFF777777),
+                              ? const Color(0xFFFF7B1B)
+                              : const Color(0xFF777777),
                         ),
                       ),
                     ],
@@ -159,13 +159,13 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Color(0xFFFF7B1B),
-        unselectedItemColor: Color(0xFFBDBDBD),
+        selectedItemColor: const Color(0xFFFF7B1B),
+        unselectedItemColor: const Color(0xFFBDBDBD),
         items: [
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/home.png',
-              color: _selectedIndex == 0 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 0 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),
@@ -174,7 +174,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/report.png',
-              color: _selectedIndex == 1 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 1 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),
@@ -183,7 +183,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/settings.png',
-              color: _selectedIndex == 2 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 2 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),
@@ -191,7 +191,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
           ),
         ],
       ),
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF5F5F5),
     );
   }
 }

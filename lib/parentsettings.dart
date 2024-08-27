@@ -196,9 +196,6 @@ class _ParentSettingsPageState extends State<ParentSettingsPage> {
                 style: TextStyle(color: Color(0xFFFF7B1B)),
               ),
               onPressed: () {
-                String userInput = _textFieldController.text;
-                // Here you can handle the user's input, for example:
-                // Send it to the server, save it, etc.
                 Navigator.of(context).pop();
               },
             ),
@@ -208,9 +205,6 @@ class _ParentSettingsPageState extends State<ParentSettingsPage> {
                 style: TextStyle(color: Color(0xFF555555)),
               ),
               onPressed: () {
-                String userInput = _textFieldController.text;
-                // Here you can handle the user's input, for example:
-                // Send it to the server, save it, etc.
                 Navigator.of(context).pop();
               },
             ),

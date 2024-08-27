@@ -24,7 +24,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
       final response = await _dio.get(url);
@@ -80,14 +80,14 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '자녀1의 레포트',
           style: TextStyle(color: Color(0xFF333333), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color(0xFF333333)),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF333333)),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -95,7 +95,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
         centerTitle: true,
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
@@ -125,15 +125,15 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
                     children: [
                       Text(
                         dateList[index],
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF333333)),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         '주 욕설 사용량: ${abuseWeek[index]}회',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Color(0xFF777777),
                         ),
@@ -149,13 +149,13 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Color(0xFFFF7B1B),
-        unselectedItemColor: Color(0xFFBDBDBD),
+        selectedItemColor: const Color(0xFFFF7B1B),
+        unselectedItemColor: const Color(0xFFBDBDBD),
         items: [
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/home.png',
-              color: _selectedIndex == 0 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 0 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),
@@ -164,7 +164,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/report.png',
-              color: _selectedIndex == 1 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 1 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),
@@ -173,7 +173,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/settings.png',
-              color: _selectedIndex == 2 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 2 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),
@@ -181,7 +181,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
           ),
         ],
       ),
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF5F5F5),
     );
   }
 }

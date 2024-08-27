@@ -25,7 +25,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
   }
 
   Future<void> fetchFriendRequests() async {
-    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/'; // 실제 백엔드 API 엔드포인트로 변경하세요.
+    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/'; // 실제 백엔드 API 엔드포인트로 변경하세요.
 
     try {
       setState(() {
@@ -47,12 +47,12 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
       setState(() {
         isLoading = false;
       });
-      print('Error: $e');
+      throw Exception('Error: $e');
     }
   }
 
   Future<void> handleFriendRequest(String friend, bool isAccepted) async {
-    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/'; // 실제 백엔드 API 엔드포인트로 변경하세요.
+    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/'; // 실제 백엔드 API 엔드포인트로 변경하세요.
 
     try {
       final response = await _dio.post(url, data: {
@@ -64,18 +64,19 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
         setState(() {
           friendRequests.remove(friend);
         });
-        print('${isAccepted ? 'Accepted' : 'Declined'} friend request from $friend');
+        throw Exception('${isAccepted ? 'Accepted' : 'Declined'} friend request from $friend');
       } else {
         throw Exception('Failed to handle friend request');
       }
     } catch (e) {
-      print('Error: $e');
+      throw Exception('Error: $e');
     }
   }
 
   Future<void> addFriend() async {
     final String email = _emailController.text;
-    final String url = 'https://example.com/api/add_friend'; // 실제 백엔드 API 엔드포인트로 변경하세요.
+    _emailController.clear();
+    const String url = 'https://example.com/api/add_friend'; // 실제 백엔드 API 엔드포인트로 변경하세요.
 
     if (email.isEmpty) {
       return;
@@ -85,13 +86,12 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
       final response = await _dio.post(url, data: {'email': email});
 
       if (response.statusCode == 200) {
-        print('Friend request sent to $email');
-        _emailController.clear();
+        throw Exception('Friend request sent to $email');
       } else {
         throw Exception('Failed to add friend');
       }
     } catch (e) {
-      print('Error: $e');
+      throw Exception('Error: $e');
     }
   }
 
@@ -294,13 +294,13 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: Color(0xFFFF7B1B),
-        unselectedItemColor: Color(0xFFBDBDBD),
+        selectedItemColor: const Color(0xFFFF7B1B),
+        unselectedItemColor: const Color(0xFFBDBDBD),
         items: [
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/home.png',
-              color: _selectedIndex == 0 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 0 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),
@@ -309,7 +309,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/report.png',
-              color: _selectedIndex == 1 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 1 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),
@@ -318,7 +318,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/friends.png',
-              color: _selectedIndex == 2 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 2 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),
@@ -327,7 +327,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
           BottomNavigationBarItem(
             icon: Image.asset(
               'assets/images/settings.png',
-              color: _selectedIndex == 3 ? Color(0xFFFF7B1B) : Color(0xFFBDBDBD),
+              color: _selectedIndex == 3 ? const Color(0xFFFF7B1B) : const Color(0xFFBDBDBD),
               width: 24,
               height: 24,
             ),

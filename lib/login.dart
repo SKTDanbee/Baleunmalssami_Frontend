@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
     String password = _passwordController.text;
 
     // 로그인 시도
-    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/children';
+    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/children';
 
     // try {
     //   final response = await _dio.post(url, data: {

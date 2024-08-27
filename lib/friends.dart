@@ -21,9 +21,9 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Future<void> fetchFriendsData() async {
-    final String myUrl = 'https://your-api-url/reports/';  // reports API 엔드포인트
-    final String reportsUrl = 'https://your-api-url/reports/';  // reports API 엔드포인트
-    final String friendsUrl = 'https://your-api-url/friends/';  // friends API 엔드포인트
+    const String myUrl = 'https://your-api-url/reports/';  // reports API 엔드포인트
+    const String reportsUrl = 'https://your-api-url/reports/';  // reports API 엔드포인트
+    const String friendsUrl = 'https://your-api-url/friends/';  // friends API 엔드포인트
 
     try {
       // reports 테이블의 0번 인덱스 데이터를 가져옴 (자신의 abuseCount)
