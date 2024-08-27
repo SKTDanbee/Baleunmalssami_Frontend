@@ -103,10 +103,92 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                '  기타',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF777777),
+                ),
+              ),
+            ),
+            Card(
+              elevation: 0,
+              color: Colors.white,
+              margin: EdgeInsets.zero,  // 카드의 기본 margin 제거
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Padding(  // 카드 내부에 패딩 추가
+                padding: const EdgeInsets.all(10.0),  // 원하는 패딩 값 설정
+                child: ListTile(
+                    title: const Text(
+                      '오작동 비속어 신고하기',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFF333333),
+                      ),
+                    ),
+                    onTap: (){
+                      dialog();
+                    }
+                ),
+              ),
+            ),
           ],
         ),
       ),
       backgroundColor: const Color(0xFFF5F5F5),
     );
   }
+
+  void dialog() async {
+    TextEditingController _textFieldController = TextEditingController();
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Text(
+            '오작동 비속어 신고하기',
+            style: TextStyle(fontSize: 18),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _textFieldController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: '내용을 입력해주세요',
+                  ),
+                  maxLines: 5, // You can adjust the maxLines according to your needs
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                '확인',
+                style: TextStyle(color: Color(0xFFFF7B1B)),
+              ),
+              onPressed: () {
+                String userInput = _textFieldController.text;
+                // Here you can handle the user's input, for example:
+                // Send it to the server, save it, etc.
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

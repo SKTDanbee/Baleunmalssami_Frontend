@@ -9,8 +9,6 @@ class _ParentSettingsPageState extends State<ParentSettingsPage> {
   bool _pushNotification = true;
   bool _sound = false;
   bool _vibration = false;
-  bool _child1 = true;
-  bool _child2 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -127,15 +125,22 @@ class _ParentSettingsPageState extends State<ParentSettingsPage> {
                 padding: const EdgeInsets.all(10.0),  // 패딩을 추가하여 여백 확보
                 child: Column(
                   children: [
-                    SwitchListTile(
+                    ListTile(
                       title: const Text('자녀1'),
-                      value: _child1,
-                      activeColor: const Color(0xFFFF7B1B),  // 스위치가 ON 상태일 때 색상 지정
-                      onChanged: (bool value) {
-                        setState(() {
-                          _child1 = value;
-                        });
-                      },
+                      trailing: TextButton(
+                        onPressed: () {
+                          // '연결 해제' 버튼 클릭 시 실행될 코드 작성
+                          dialog();
+                        },
+                        child: const Text(
+                          '연결 해제',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF777777),
+                            decoration: TextDecoration.underline, // 밑줄 추가
+                          ),
+                        ),
+                      ),
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -144,15 +149,22 @@ class _ParentSettingsPageState extends State<ParentSettingsPage> {
                         thickness: 1,
                       ),
                     ),
-                    SwitchListTile(
+                    ListTile(
                       title: const Text('자녀2'),
-                      value: _child2,
-                      activeColor: const Color(0xFFFF7B1B),  // 스위치가 ON 상태일 때 색상 지정
-                      onChanged: (bool value) {
-                        setState(() {
-                          _child2 = value;
-                        });
-                      },
+                      trailing: TextButton(
+                        onPressed: () {
+                          // '연결 해제' 버튼 클릭 시 실행될 코드 작성
+                          dialog();
+                        },
+                        child: const Text(
+                          '연결 해제',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF777777),
+                            decoration: TextDecoration.underline, // 밑줄 추가
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -162,6 +174,49 @@ class _ParentSettingsPageState extends State<ParentSettingsPage> {
         ),
       ),
       backgroundColor: const Color(0xFFF5F5F5),
+    );
+  }
+  void dialog() async {
+    TextEditingController _textFieldController = TextEditingController();
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Text(
+            '연결을 해제하시겠습니까?',
+            style: TextStyle(fontSize: 18),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                '확인',
+                style: TextStyle(color: Color(0xFFFF7B1B)),
+              ),
+              onPressed: () {
+                String userInput = _textFieldController.text;
+                // Here you can handle the user's input, for example:
+                // Send it to the server, save it, etc.
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text(
+                '취소',
+                style: TextStyle(color: Color(0xFF555555)),
+              ),
+              onPressed: () {
+                String userInput = _textFieldController.text;
+                // Here you can handle the user's input, for example:
+                // Send it to the server, save it, etc.
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
