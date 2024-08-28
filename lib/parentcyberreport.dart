@@ -15,7 +15,7 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
   Dio _dio = Dio();
   String? reportDate;
   String? reportContent;
-  bool isLoading = false; //로딩창!!
+  bool isLoading = false; // 로딩창!!
 
   @override
   void initState() {
@@ -77,42 +77,45 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Card(
-                color: Colors.white,
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        '사이버 폭력 주의',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF333333),
+              Container(
+                width: double.infinity, // 화면 너비를 꽉 채우도록 설정
+                child: Card(
+                  color: Colors.white,
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '사이버 폭력 주의',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF333333),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        reportDate ?? '',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF555555),
+                        const SizedBox(height: 16),
+                        Text(
+                          reportDate ?? '',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF555555),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        reportContent ?? '',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF333333),
+                        const SizedBox(height: 16),
+                        Text(
+                          reportContent ?? '',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF333333),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

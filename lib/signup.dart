@@ -187,49 +187,11 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFF7B1B),
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              onPressed: _send,
-              child: const Text(
-                '보내기',
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
-            ),
           ],
         ),
       ),
       backgroundColor: const Color(0xFFFFFFFF),
     );
-  }
-
-  Future<void> _send() async {
-    try {
-      const String filePath = 'assets/texts.txt';
-      const String url = 'https://danbeegptreport-c4cfbdage7hkd8bv.koreacentral-01.azurewebsites.net/generate-report/';
-
-      // assets 폴더에서 파일 읽기
-      final ByteData byteData = await rootBundle.load(filePath);
-      final fileBytes = byteData.buffer.asUint8List();
-
-      // MultipartRequest를 사용하여 파일을 전송
-      final request = http.MultipartRequest('POST', Uri.parse(url))
-        ..files.add(http.MultipartFile.fromBytes('file', fileBytes, filename: 'texts.txt'));
-
-      // 요청 보내기
-      final response = await request.send();
-
-      // 응답 본문 확인
-      final responseBody = await response.stream.bytesToString();
-      throw Exception('Response Text: $responseBody');
-      //print('Response Text: $responseBody');
-
-    } catch (e) {
-      throw Exception('Error occurred: $e');
-      //print('Error occurred: $e');
-    }
   }
 
   void _signUp() async {

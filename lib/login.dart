@@ -81,17 +81,17 @@ class _LoginPageState extends State<LoginPage> {
     String password = _passwordController.text;
 
     // 로그인 시도
-    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/children';
+    const String url = 'https://f4f6-180-134-170-106.ngrok-free.app/login';
 
-    // try {
-    //   final response = await _dio.post(url, data: {
-    //     'id': email, //id 바꿔봐야
-    //     'password': password,
-    //   });
-    //
-    //   if (response.statusCode == 200) {
-        const int i = 1;
-        if (i == 1) {
+    try {
+      final response = await _dio.post(url, data: {
+        'id': email, //id 바꿔봐야
+        'password': password,
+      });
+
+      if (response.statusCode == 200) {
+        // const int i = 1;
+        // if (i == 1) {
           // 로그인 성공
           Navigator.push(
             context,
@@ -102,13 +102,13 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('로그인 실패: 잘못된 이메일 또는 비밀번호입니다.')),
           );
-        }
-    //   }
-    // }catch (e) {
-    //   // 서버 오류 또는 네트워크 오류 처리
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(content: Text('로그인 실패: 서버와 연결할 수 없습니다.')),
-    //   );
-    // }
+        //}
+      }
+    }catch (e) {
+      // 서버 오류 또는 네트워크 오류 처리
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('로그인 실패: 서버와 연결할 수 없습니다.')),
+      );
+    }
   }
 }

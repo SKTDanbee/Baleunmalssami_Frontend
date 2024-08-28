@@ -3,6 +3,8 @@ import 'signup.dart'; // 학생 회원가입 페이지
 import 'parentsignup.dart'; // 보호자 회원가입 페이지
 import 'home.dart';
 import 'parenthome.dart';
+import 'login.dart';
+import 'parentlogin.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,7 +39,7 @@ class MainPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SignUpPage()), // 학생 회원가입 페이지
+                  MaterialPageRoute(builder: (context) => LoginPage()), // 학생 회원가입 페이지
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -51,7 +53,7 @@ class MainPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ParentSignUpPage()), // 보호자 회원가입 페이지
+                  MaterialPageRoute(builder: (context) => ParentLoginPage()), // 보호자 회원가입 페이지
                 );
               },
               style: ElevatedButton.styleFrom(

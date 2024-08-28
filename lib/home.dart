@@ -328,6 +328,22 @@ class HomePageContent extends StatelessWidget {
                 ),
               ],
             ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  // 지난 레포트 보기 페이지로 이동하는 로직
+
+                },
+                child: const Text(
+                  '레포트 갱신하기 >',
+                  style: TextStyle(
+                    color: Color(0xFF777777),
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

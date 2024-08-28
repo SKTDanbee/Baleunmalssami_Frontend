@@ -50,21 +50,6 @@ class _ParentSignUpPageState extends State<ParentSignUpPage> {
             ),
             const SizedBox(height: 20),
             const Text(
-              '보호자 전화번호',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: _phoneController,
-              decoration: const InputDecoration(
-                hintText: '전화번호를 입력해주세요.',
-                border: OutlineInputBorder(),
-                filled: true,
-                fillColor: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
               '이름',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
@@ -93,6 +78,21 @@ class _ParentSignUpPageState extends State<ParentSignUpPage> {
                 fillColor: Colors.white,
               ),
               obscureText: true, // 비밀번호는 가려진 텍스트로 입력
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              '전화번호',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _phoneController,
+              decoration: const InputDecoration(
+                hintText: '전화번호를 입력해주세요.',
+                border: OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.white,
+              ),
             ),
             const SizedBox(height: 20),
             const Text(

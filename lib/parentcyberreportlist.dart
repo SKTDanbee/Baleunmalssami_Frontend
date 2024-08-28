@@ -36,16 +36,17 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
           dateList.clear();
           cyberdegree.clear();
 
-          cyberdegree.add('높음');
-          cyberdegree.add('중간');
-          cyberdegree.add('중간');
-          cyberdegree.add('낮음');
-          cyberdegree.add('낮음');
-          cyberdegree.add('낮음');
-          cyberdegree.add('낮음');
+          // cyberdegree.add('높음');
+          // cyberdegree.add('중간');
+          // cyberdegree.add('중간');
+          // cyberdegree.add('낮음');
+          // cyberdegree.add('낮음');
+          // cyberdegree.add('높음');
+          // cyberdegree.add('낮음');
 
           for (var report in data) {
             dateList.add(report['report_date']);
+            cyberdegree.add(report['report_degree']);
           }
 
           isLoading = false;
