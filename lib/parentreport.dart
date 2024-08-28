@@ -42,7 +42,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
             if (i == widget.index) {
               // 첫 번째 투플의 report_date와 report_content 저장
               reportDate = data[i]['report_date'];
-              reportContent = data[i]['report_parent'];
+              reportContent = data[i]['report'];
             }
           }
 
