@@ -6,14 +6,15 @@ import 'parentcyberreportlist.dart';
 
 class ParentReportPage extends StatefulWidget {
   final int index;
+  final String myId;
+  final Dio dio;
 
-  ParentReportPage({required this.index});
+  ParentReportPage({required this.index, required this.myId, required this.dio});
   @override
   _ParentReportPageState createState() => _ParentReportPageState();
 }
 
 class _ParentReportPageState extends State<ParentReportPage> {
-  Dio _dio = Dio();
   String? reportDate;
   String? reportContent;
   List<int> abuseWeek = [];
@@ -29,7 +30,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
     const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/type1/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
-      final response = await _dio.get(url);
+      final response = await widget.dio.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
@@ -217,7 +218,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ParentReportListPage()),
+                          builder: (context) => ParentReportListPage(dio: widget.dio, myId: widget.myId)),
                     );
                   },
                   child: const Text(
@@ -237,7 +238,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ParentCyberReportListPage()),
+                          builder: (context) => ParentCyberReportListPage(dio: widget.dio, myId: widget.myId)),
                     );
                   },
                   child: const Text(

@@ -5,6 +5,10 @@ import 'settings.dart';  // 설정 페이지
 import 'package:dio/dio.dart';
 
 class ParentReportListPage extends StatefulWidget {
+  final String myId;
+  final Dio dio;
+
+  ParentReportListPage({required this.myId, required this.dio});
   @override
   _ParentReportListPageState createState() => _ParentReportListPageState();
 }
@@ -12,7 +16,6 @@ class ParentReportListPage extends StatefulWidget {
 class _ParentReportListPageState extends State<ParentReportListPage> {
   int _selectedIndex = 1;  // 레포트 탭이 기본 선택
 
-  Dio _dio = Dio();
   List<String> dateList = [];
   List<int> abuseWeek = [];
   bool isLoading = false; //로딩창!!!
@@ -27,7 +30,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
     const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/type1/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
-      final response = await _dio.get(url);
+      final response = await widget.dio.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
@@ -61,7 +64,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ParentHomePage()),
+          MaterialPageRoute(builder: (context) => ParentHomePage(dio: widget.dio, myId: widget.myId)),
         );
         break;
       case 1:
@@ -108,6 +111,8 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
                   MaterialPageRoute(
                     builder: (context) => ParentReportPage(
                       index: index,
+                      dio: widget.dio,
+                      myId: widget.myId,
                     ),
                   ),
                 );

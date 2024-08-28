@@ -5,6 +5,11 @@ import 'settings.dart';  // 설정 페이지
 import 'package:dio/dio.dart';
 
 class ParentCyberReportListPage extends StatefulWidget {
+  final Dio dio;
+  final String myId;
+
+  ParentCyberReportListPage({required this.dio, required this.myId});
+
   @override
   _ParentCyberReportListPageState createState() => _ParentCyberReportListPageState();
 }
@@ -12,10 +17,9 @@ class ParentCyberReportListPage extends StatefulWidget {
 class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
   int _selectedIndex = 1;  // 레포트 탭이 기본 선택
 
-  Dio _dio = Dio();
   List<String> dateList = [];
   List<String> cyberdegree = [];
-  bool isLoading = false; //로딩창!!!
+  bool isLoading = true; //로딩창!!!
 
   @override
   void initState() {
@@ -27,7 +31,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
     const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/type3/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
-      final response = await _dio.get(url);
+      final response = await widget.dio.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
@@ -35,14 +39,6 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
         setState(() {
           dateList.clear();
           cyberdegree.clear();
-
-          // cyberdegree.add('높음');
-          // cyberdegree.add('중간');
-          // cyberdegree.add('중간');
-          // cyberdegree.add('낮음');
-          // cyberdegree.add('낮음');
-          // cyberdegree.add('높음');
-          // cyberdegree.add('낮음');
 
           for (var report in data) {
             dateList.add(report['report_date']);
@@ -55,6 +51,9 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
         throw Exception('Failed to load reports');
       }
     } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       throw Exception('Failed to load reports: $e');
     }
   }
@@ -68,7 +67,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ParentHomePage()),
+          MaterialPageRoute(builder: (context) => ParentHomePage(dio: widget.dio, myId: widget.myId)),
         );
         break;
       case 1:
@@ -115,6 +114,8 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
                   MaterialPageRoute(
                     builder: (context) => ParentCyberReportPage(
                       index: index,
+                      dio: widget.dio,
+                      myId: widget.myId,
                     ),
                   ),
                 );
@@ -196,4 +197,3 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
     );
   }
 }
-

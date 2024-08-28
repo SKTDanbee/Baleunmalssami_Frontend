@@ -4,15 +4,16 @@ import 'parentcyberreportlist.dart';
 
 class ParentCyberReportPage extends StatefulWidget {
   final int index;
+  final Dio dio;
+  final String myId;
 
-  ParentCyberReportPage({required this.index});
+  ParentCyberReportPage({required this.index, required this.dio, required this.myId});
 
   @override
   _ParentCyberReportPageState createState() => _ParentCyberReportPageState();
 }
 
 class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
-  Dio _dio = Dio();
   String? reportDate;
   String? reportContent;
   bool isLoading = false; // 로딩창!!
@@ -27,7 +28,7 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
     const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/type3/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
-      final response = await _dio.get(url);
+      final response = await widget.dio.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
@@ -47,6 +48,9 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
         throw Exception('Failed to load reports');
       }
     } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       throw Exception('Failed to load reports: $e');
     }
   }
@@ -127,7 +131,11 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ParentCyberReportListPage()),
+                        builder: (context) => ParentCyberReportListPage(
+                          dio: widget.dio, // dio 객체 전달
+                          myId: widget.myId, // myId 전달
+                        ),
+                      ),
                     );
                   },
                   child: const Text(

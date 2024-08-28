@@ -5,12 +5,16 @@ import 'parentreport.dart';
 import 'parentsettings.dart';
 
 class ParentHomePage extends StatefulWidget {
+  final Dio dio;
+  final String myId;
+
+  const ParentHomePage({required this.dio, required this.myId});
+
   @override
   _ParentHomePageState createState() => _ParentHomePageState();
 }
 
 class _ParentHomePageState extends State<ParentHomePage> {
-  Dio _dio = Dio();
   int? abuseCounts;
   int? abuseCounts_last;
   String? reportDate;
@@ -27,7 +31,7 @@ class _ParentHomePageState extends State<ParentHomePage> {
     final String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/type2/'; // 여기에 실제 데이터베이스 URL을 입력하세요.
 
     try {
-      final response = await _dio.get(url);
+      final response = await widget.dio.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
@@ -61,8 +65,10 @@ class _ParentHomePageState extends State<ParentHomePage> {
         abuseCounts: abuseCounts,
         abuseCounts_last: abuseCounts_last,
         reportDate: reportDate,
+        dio: widget.dio, // dio 객체 전달
+        myId: widget.myId, // myId 전달
       ),
-      ParentReportPage(index: 0),
+      ParentReportPage(index: 0, dio: widget.dio, myId: widget.myId),
       ParentSettingsPage(),
     ];
 
@@ -114,15 +120,20 @@ class _ParentHomePageState extends State<ParentHomePage> {
   }
 }
 
+
 class ParentHomePageContent extends StatelessWidget {
   final int? abuseCounts;
   final int? abuseCounts_last;
   final String? reportDate;
+  final Dio dio;
+  final String myId;
 
   ParentHomePageContent({
     required this.abuseCounts,
     required this.abuseCounts_last,
     required this.reportDate,
+    required this.dio,
+    required this.myId,
   });
 
   @override
@@ -237,7 +248,7 @@ class ParentHomePageContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ParentReportPage(index: 0)),
+                            builder: (context) => ParentReportPage(index: 0, dio: dio, myId: myId)),
                       );
                     },
                     child: Card(
@@ -282,7 +293,7 @@ class ParentHomePageContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ParentCyberReportPage(index: 0)),
+                            builder: (context) => ParentCyberReportPage(index: 0, dio: dio, myId: myId)),
                       );
                     },
                     child: Card(

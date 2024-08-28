@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'parenthome.dart';
 
 class ParentLoginPage extends StatefulWidget {
@@ -11,6 +13,13 @@ class _ParentLoginPageState extends State<ParentLoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   Dio _dio = Dio();
+  CookieJar cookieJar = CookieJar();
+
+  @override
+  void initState() {
+    super.initState();
+    _dio.interceptors.add(CookieManager(cookieJar)); // 쿠키 관리 추가
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,18 +93,22 @@ class _ParentLoginPageState extends State<ParentLoginPage> {
     const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/parent';
 
     try {
-      final response = await _dio.post(url, data: {
+      final response = await _dio.post(
+          url,
+          data: {
         'id': email, //id 바꿔봐야
         'password': password,
-      });
+        },
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType, // Form URL Encoded 설정
+        ),
+      );
 
       if (response.statusCode == 200) {
-        // const int i = 1;
-        // if (i == 1) {
           // 로그인 성공
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ParentHomePage()),
+            MaterialPageRoute(builder: (context) => ParentHomePage(dio: _dio, myId: email)),
           );
         } else {
           // 로그인 실패 시 처리
