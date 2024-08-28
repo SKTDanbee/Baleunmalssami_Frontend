@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'home.dart';
-import 'report.dart';  // report.dart 파일로 직접 연결
-import 'friends.dart';  // 친구 페이지
-import 'settings.dart';  // 설정 페이지
+import 'report.dart';
+import 'friends.dart';
+import 'settings.dart';
 
 class ManageFriendPage extends StatefulWidget {
   final Dio dio;
+  final String myId;
 
-  ManageFriendPage({required this.dio});
+  ManageFriendPage({required this.dio, required this.myId});
+
   @override
   _ManageFriendPageState createState() => _ManageFriendPageState();
 }
@@ -16,9 +18,7 @@ class ManageFriendPage extends StatefulWidget {
 class _ManageFriendPageState extends State<ManageFriendPage> {
   int _selectedIndex = 2;
   final TextEditingController _emailController = TextEditingController();
-  Dio _dio = Dio();
-
-  List<String> friendRequests = ['김현동', '김호준', '배성욱', '옥지원'];
+  List<String> friendRequests = [];
   bool isLoading = false;
 
   @override
@@ -28,73 +28,92 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
   }
 
   Future<void> fetchFriendRequests() async {
-    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/'; // 실제 백엔드 API 엔드포인트로 변경하세요.
+    const String fetchurl = 'https://3cb4-180-134-170-106.ngrok-free.app/pending_friend_requests/';
 
     try {
       setState(() {
         isLoading = true;
       });
 
-      final response = await _dio.get(url);
+      final response = await widget.dio.get(fetchurl);
 
       if (response.statusCode == 200) {
-        // 실제 데이터에 맞게 수정
         setState(() {
-          friendRequests = List<String>.from(response.data['friend_requests']);
+          final List<dynamic> data = response.data;
+          friendRequests = data
+              .where((request) => request['friend_id'] == widget.myId && request['status'] == 'pending')
+              .map<String>((request) => request['child_id'])
+              .toList();
           isLoading = false;
         });
       } else {
-        throw Exception('Failed to load friend requests');
+        throw Exception('친구 요청을 불러오는 데 실패했습니다.');
       }
     } catch (e) {
       setState(() {
         isLoading = false;
       });
-      throw Exception('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('오류 발생: $e')),
+      );
     }
   }
 
-  Future<void> handleFriendRequest(String friend, bool isAccepted) async {
-    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/'; // 실제 백엔드 API 엔드포인트로 변경하세요.
+
+  Future<void> handleFriendRequest(String friend) async {
+    const String handleurl = 'https://3cb4-180-134-170-106.ngrok-free.app/accept_friend_request/'; // 실제 API 엔드포인트로 변경하세요.
 
     try {
-      final response = await _dio.post(url, data: {
-        'friend': friend,
-        'accepted': isAccepted,
-      });
+      final response = await widget.dio.post(
+          handleurl,
+          data: {'friend_id': friend},
+        options: Options(
+          contentType: Headers.jsonContentType,
+        )
+      );
 
       if (response.statusCode == 200) {
-        setState(() {
-          friendRequests.remove(friend);
-        });
-        throw Exception('${isAccepted ? 'Accepted' : 'Declined'} friend request from $friend');
+        // setState(() {
+        //   friendRequests.remove(friend);
+        // });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('친구 요청을 수락했습니다.')),
+        );
       } else {
-        throw Exception('Failed to handle friend request');
+        throw Exception('친구 요청 처리에 실패했습니다.');
       }
     } catch (e) {
-      throw Exception('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('오류 발생: $e')),
+      );
     }
   }
 
   Future<void> addFriend() async {
     final String email = _emailController.text;
-    _emailController.clear();
-    const String url = 'https://example.com/api/add_friend'; // 실제 백엔드 API 엔드포인트로 변경하세요.
+    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/send_friend_request/'; // 실제 API 엔드포인트로 변경하세요.
 
     if (email.isEmpty) {
       return;
     }
 
     try {
-      final response = await _dio.post(url, data: {'email': email});
+      final response = await widget.dio.post(
+        url,
+        data: {'friend_id': email},
+      );
 
       if (response.statusCode == 200) {
-        throw Exception('Friend request sent to $email');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('친구 요청을 보냈습니다: $email')),
+        );
       } else {
-        throw Exception('Failed to add friend');
+        throw Exception('친구 추가에 실패했습니다.');
       }
     } catch (e) {
-      throw Exception('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('오류 발생: $e')),
+      );
     }
   }
 
@@ -105,22 +124,22 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
 
     switch (index) {
       case 0:
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomePage(dio: _dio)),
+          MaterialPageRoute(builder: (context) => HomePage(dio: widget.dio, myId: widget.myId)),
         );
         break;
       case 1:
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ReportPage(index: 0, dio: _dio)),
+          MaterialPageRoute(builder: (context) => ReportPage(index: 0, dio: widget.dio, myId: widget.myId)),
         );
         break;
       case 2:
-        //
+      // 현재 페이지
         break;
       case 3:
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => SettingsPage()),
         );
@@ -165,7 +184,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 4,
                     blurRadius: 5,
-                    offset: const Offset(0, 3), // 그림자의 위치 조정
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -229,7 +248,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
                     children: [
                       ListTile(
                         title: Text(
-                          friendRequests[index],
+                          '   ' + friendRequests[index],
                           style: const TextStyle(
                             fontSize: 18,
                             color: Color(0xFF333333),
@@ -240,7 +259,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
                           children: [
                             TextButton(
                               onPressed: () {
-                                handleFriendRequest(friendRequests[index], true);
+                                handleFriendRequest(friendRequests[index]);
                               },
                               style: TextButton.styleFrom(
                                 backgroundColor: const Color(0xFFFF7B1B),
@@ -257,7 +276,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
                             const SizedBox(width: 6),
                             TextButton(
                               onPressed: () {
-                                handleFriendRequest(friendRequests[index], false);
+                                //
                               },
                               style: TextButton.styleFrom(
                                 backgroundColor: Colors.white,
@@ -290,7 +309,6 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
                 },
               ),
             ),
-
           ],
         ),
       ),
@@ -325,7 +343,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
               width: 24,
               height: 24,
             ),
-            label: '친구',
+            label: '랭킹',
           ),
           BottomNavigationBarItem(
             icon: Image.asset(

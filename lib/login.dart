@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
     String password = _passwordController.text;
 
     // 로그인 시도
-    const String url = 'https://f4f6-180-134-170-106.ngrok-free.app/login';
+    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/login';
 
     try {
       final response = await _dio.post(
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(dio: _dio), // Dio 인스턴스를 HomePage로 전달
+            builder: (context) => HomePage(dio: _dio, myId: email), // Dio 인스턴스를 HomePage로 전달
           ),
         );
       } else {

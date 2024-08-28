@@ -7,8 +7,9 @@ import 'package:dio/dio.dart';
 
 class ReportListPage extends StatefulWidget {
   final Dio dio;
+  final String myId;
 
-  ReportListPage({required this.dio});
+  ReportListPage({required this.dio, required this.myId});
 
   @override
   _ReportListPageState createState() => _ReportListPageState();
@@ -18,7 +19,7 @@ class _ReportListPageState extends State<ReportListPage> {
   int _selectedIndex = 1;
   List<String> dateList = [];
   List<int> abuseWeek = [];
-  bool isLoading = true; // 로딩창!!!
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -27,7 +28,7 @@ class _ReportListPageState extends State<ReportListPage> {
   }
 
   Future<void> fetchReportData() async {
-    const String url = 'https://f4f6-180-134-170-106.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/';
 
     try {
       final response = await widget.dio.get(url);
@@ -66,7 +67,9 @@ class _ReportListPageState extends State<ReportListPage> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage(dio: widget.dio)),
+          MaterialPageRoute(
+              builder: (context) =>
+                  HomePage(dio: widget.dio, myId: widget.myId)),
         );
         break;
       case 1:
@@ -75,13 +78,16 @@ class _ReportListPageState extends State<ReportListPage> {
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => FriendsPage(dio: widget.dio)),
+          MaterialPageRoute(
+              builder: (context) =>
+                  FriendsPage(dio: widget.dio, myId: widget.myId)),
         );
         break;
       case 3:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SettingsPage()),
+          MaterialPageRoute(
+              builder: (context) => SettingsPage()),
         );
         break;
     }
@@ -118,9 +124,9 @@ class _ReportListPageState extends State<ReportListPage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ReportPage(
-                      index: index,
-                      dio: widget.dio,
-                    ),
+                        index: index,
+                        dio: widget.dio,
+                        myId: widget.myId),
                   ),
                 );
               },

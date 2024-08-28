@@ -4,8 +4,10 @@ import 'managefriend.dart';
 
 class FriendsPage extends StatefulWidget {
   final Dio dio;
+  final String myId;
 
-  FriendsPage({required this.dio});
+  FriendsPage({required this.dio, required this.myId});
+
   @override
   _FriendsPageState createState() => _FriendsPageState();
 }
@@ -14,7 +16,7 @@ class _FriendsPageState extends State<FriendsPage> {
   List<Map<String, dynamic>> friends = [];
   int? myAbuseCount;
   String? myName;
-  bool isLoading = true; // Set loading to true initially
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -23,26 +25,31 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Future<void> fetchFriendsData() async {
-    const String friendsUrl = 'https://f4f6-180-134-170-106.ngrok-free.app/friend_ranking/';  // reports API 엔드포인트
+    const String friendsUrl = 'https://3cb4-180-134-170-106.ngrok-free.app/friend_ranking/';
 
     try {
-      // Get friends data from the friends table
       final friendsResponse = await widget.dio.get(friendsUrl);
       if (friendsResponse.statusCode == 200) {
-        friends = List<Map<String, dynamic>>.from(friendsResponse.data);
+        final data = Map<String, dynamic>.from(friendsResponse.data);
+        final latestDate = data.keys.first;
+        friends = List<Map<String, dynamic>>.from(data[latestDate]);
+
+        final myData = friends.firstWhere((friend) => friend['child_id'] == widget.myId);
+        myAbuseCount = myData['abuse_count'];
+        myName = widget.myId;
 
         setState(() {
           isLoading = false;
         });
       } else {
-        throw Exception('Failed to load friends data');
+        throw Exception('친구 데이터를 불러오지 못했습니다.');
       }
     } catch (e) {
       setState(() {
         isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error loading data: $e')),
+        SnackBar(content: Text('데이터 로딩 오류: $e')),
       );
     }
   }
@@ -81,7 +88,7 @@ class _FriendsPageState extends State<FriendsPage> {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 4,
                   blurRadius: 5,
-                  offset: const Offset(0, 3), // 그림자의 위치 조정
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
@@ -92,7 +99,7 @@ class _FriendsPageState extends State<FriendsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '지금 나는? ${friends.indexWhere((friend) => friend['name'] == myName) + 1}위',
+                      '지금 나는? ${friends.indexWhere((friend) => friend['child_id'] == myName) + 1}위',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -113,7 +120,7 @@ class _FriendsPageState extends State<FriendsPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ManageFriendPage(dio: widget.dio),
+                        builder: (context) => ManageFriendPage(dio: widget.dio, myId: widget.myId),
                       ),
                     );
                   },
@@ -128,7 +135,7 @@ class _FriendsPageState extends State<FriendsPage> {
               ],
             ),
           ),
-          const Divider(thickness: 1, color: Color(0xFFF5F5F5)), // 구분선 추가
+          const Divider(thickness: 1, color: Color(0xFFF5F5F5)),
           Expanded(
             child: ListView.builder(
               itemCount: friends.length,
@@ -141,13 +148,13 @@ class _FriendsPageState extends State<FriendsPage> {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: friends[index]['name'] == myName
+                          color: friends[index]['child_id'] == myName
                               ? const Color(0xFFFF7B1B)
                               : const Color(0xFF333333),
                         ),
                       ),
                       title: Text(
-                        friends[index]['name'],
+                        friends[index]['child_id'],
                         style: const TextStyle(
                           fontSize: 16,
                           color: Color(0xFF333333),

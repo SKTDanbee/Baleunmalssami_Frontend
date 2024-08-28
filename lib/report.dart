@@ -4,10 +4,11 @@ import 'package:dio/dio.dart';
 import 'reportlist.dart';
 
 class ReportPage extends StatefulWidget {
-  final int index;  // 추가된 부분: ReportListPage에서 전달받은 index 값
+  final int index; // ReportListPage에서 전달받은 index 값
+  final String myId;
   final Dio dio;
 
-  ReportPage({required this.index, required this.dio});  // index 값 필수로 받도록 생성자 수정
+  ReportPage({required this.index, required this.myId, required this.dio}); // index 값 필수로 받도록 생성자 수정
 
   @override
   _ReportPageState createState() => _ReportPageState();
@@ -26,11 +27,10 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   Future<void> fetchReportData() async {
-    const String url =
-        'https://f4f6-180-134-170-106.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/';
 
     try {
-      final response = await widget.dio.get(url);  // 전달받은 dio 객체 사용
+      final response = await widget.dio.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
@@ -41,7 +41,6 @@ class _ReportPageState extends State<ReportPage> {
           for (var i = 0; i < data.length; i++) {
             abuseWeek.add(data[i]['abuse_count']);
             if (i == widget.index) {
-              // index에 해당하는 투플의 report_date와 report_content 저장
               reportDate = data[i]['report_date'];
               reportContent = data[i]['report'];
             }
@@ -56,7 +55,9 @@ class _ReportPageState extends State<ReportPage> {
       setState(() {
         isLoading = false;
       });
-      throw Exception('Failed to load reports: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error loading data: $e')),
+      );
     }
   }
 
@@ -218,11 +219,11 @@ class _ReportPageState extends State<ReportPage> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    // 지난 레포트 보기 페이지로 이동하는 로직
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ReportListPage(dio: widget.dio)),
+                        builder: (context) => ReportListPage(dio: widget.dio, myId: widget.myId),
+                      ),
                     );
                   },
                   child: const Text(

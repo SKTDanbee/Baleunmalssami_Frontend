@@ -6,8 +6,9 @@ import 'package:dio/dio.dart';
 
 class HomePage extends StatefulWidget {
   final Dio dio;
+  final String myId;
 
-  HomePage({required this.dio});
+  const HomePage({required this.dio, required this.myId});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://f4f6-180-134-170-106.ngrok-free.app/reports/';
+    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/';
 
     try {
       final response = await widget.dio.get(url);
@@ -67,10 +68,11 @@ class _HomePageState extends State<HomePage> {
         abuseCounts: abuseCounts,
         abuseCounts_last: abuseCounts_last,
         reportDate: reportDate,
-        dio: widget.dio, // Dio 객체 전달
+        dio: widget.dio,
+        myId: widget.myId, // myId 전달
       ),
-      ReportPage(index: 0, dio: widget.dio),
-      FriendsPage(dio: widget.dio),
+      ReportPage(index: 0, dio: widget.dio, myId: widget.myId),
+      FriendsPage(dio: widget.dio, myId: widget.myId),
       SettingsPage(),
     ];
 
@@ -138,12 +140,14 @@ class HomePageContent extends StatelessWidget {
   final int? abuseCounts_last;
   final String? reportDate;
   final Dio dio;
+  final String myId;
 
   HomePageContent({
     required this.abuseCounts,
     required this.abuseCounts_last,
     required this.reportDate,
     required this.dio,
+    required this.myId, // myId 전달
   });
 
   @override
@@ -258,7 +262,12 @@ class HomePageContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ReportPage(index: 0, dio: dio)),
+                          builder: (context) => ReportPage(
+                            index: 0,
+                            dio: dio,
+                            myId: myId, // myId 전달
+                          ),
+                        ),
                       );
                     },
                     child: Card(
@@ -303,7 +312,11 @@ class HomePageContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FriendsPage(dio: dio)),
+                          builder: (context) => FriendsPage(
+                            dio: dio,
+                            myId: myId, // myId 전달
+                          ),
+                        ),
                       );
                     },
                     child: Card(
@@ -360,3 +373,4 @@ class HomePageContent extends StatelessWidget {
     );
   }
 }
+
