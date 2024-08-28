@@ -24,7 +24,7 @@ class _ParentHomePageState extends State<ParentHomePage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 여기에 실제 데이터베이스 URL을 입력하세요.
+    final String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/type2/'; // 여기에 실제 데이터베이스 URL을 입력하세요.
 
     try {
       final response = await _dio.get(url);

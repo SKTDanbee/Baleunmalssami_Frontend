@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchReportData() async {
-    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/';
+    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/type2/';
 
     try {
       final response = await widget.dio.get(url);

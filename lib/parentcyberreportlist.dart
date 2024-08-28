@@ -24,7 +24,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
   }
 
   Future<void> fetchReportData() async {
-    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/type3/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
       final response = await _dio.get(url);
