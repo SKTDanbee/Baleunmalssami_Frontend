@@ -18,6 +18,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
   String? reportDate;
   String? reportContent;
   List<int> abuseWeek = [];
+  String? myChildName;
   bool isLoading = false; //로딩창!!!
 
   @override
@@ -44,6 +45,7 @@ class _ParentReportPageState extends State<ParentReportPage> {
               // 첫 번째 투플의 report_date와 report_content 저장
               reportDate = data[i]['report_date'];
               reportContent = data[i]['report'];
+              myChildName = data[i]['child_id'];
             }
           }
 
@@ -61,8 +63,8 @@ class _ParentReportPageState extends State<ParentReportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          '자녀1의 레포트',
+        title: Text(
+          '${myChildName ?? '로딩 중'}의 레포트',
           style: TextStyle(color: Color(0xFF333333), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
@@ -190,8 +192,8 @@ class _ParentReportPageState extends State<ParentReportPage> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        '이번주에 자녀1의 언어습관은?\n',
+                      Text(
+                        '이번주 ${myChildName ?? '로딩 중'}의 언어습관은?\n',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

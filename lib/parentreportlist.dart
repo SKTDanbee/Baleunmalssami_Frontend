@@ -84,7 +84,7 @@ class _ParentReportListPageState extends State<ParentReportListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '자녀1의 레포트',
+          '지난 레포트',
           style: TextStyle(color: Color(0xFF333333), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,

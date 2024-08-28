@@ -87,7 +87,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '자녀1의 사이버 폭력 레포트',
+          '사이버 폭력 레포트',
           style: TextStyle(color: Color(0xFF333333), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,

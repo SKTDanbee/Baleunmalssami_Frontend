@@ -19,6 +19,7 @@ class _ParentHomePageState extends State<ParentHomePage> {
   int? abuseCounts_last;
   String? reportDate;
   int _selectedIndex = 0;
+  String? myChildName;
   bool isLoading = false; // 로딩창!!!
 
   @override
@@ -40,6 +41,7 @@ class _ParentHomePageState extends State<ParentHomePage> {
           abuseCounts = data[0]['abuse_count'];
           abuseCounts_last = data[1]['abuse_count'];
           reportDate = data[0]['report_date'];
+          myChildName = data[0]['child_id'];
           isLoading = false;
         });
       } else {
@@ -65,6 +67,7 @@ class _ParentHomePageState extends State<ParentHomePage> {
         abuseCounts: abuseCounts,
         abuseCounts_last: abuseCounts_last,
         reportDate: reportDate,
+        myChildName: myChildName,
         dio: widget.dio, // dio 객체 전달
         myId: widget.myId, // myId 전달
       ),
@@ -125,6 +128,7 @@ class ParentHomePageContent extends StatelessWidget {
   final int? abuseCounts;
   final int? abuseCounts_last;
   final String? reportDate;
+  final String? myChildName;
   final Dio dio;
   final String myId;
 
@@ -132,6 +136,7 @@ class ParentHomePageContent extends StatelessWidget {
     required this.abuseCounts,
     required this.abuseCounts_last,
     required this.reportDate,
+    required this.myChildName,
     required this.dio,
     required this.myId,
   });
@@ -180,14 +185,15 @@ class ParentHomePageContent extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          '자녀1의 언어습관은?',
-                          style: TextStyle(
+                        Text(
+                          '${myChildName ?? '로딩 중'}의 언어습관은?',
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF333333),
                           ),
                         ),
+
                         const SizedBox(height: 8),
                         Text(
                           '이번주 욕설 사용량: ${abuseCounts ?? '로딩 중'} 회',

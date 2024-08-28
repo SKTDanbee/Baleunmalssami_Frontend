@@ -90,13 +90,13 @@ class _ParentLoginPageState extends State<ParentLoginPage> {
     String password = _passwordController.text;
 
     // 로그인 시도
-    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/parent';
+    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/login';
 
     try {
       final response = await _dio.post(
           url,
           data: {
-        'id': email, //id 바꿔봐야
+        'username': email, //id 바꿔봐야
         'password': password,
         },
         options: Options(
@@ -108,7 +108,9 @@ class _ParentLoginPageState extends State<ParentLoginPage> {
           // 로그인 성공
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ParentHomePage(dio: _dio, myId: email)),
+            MaterialPageRoute(
+                builder: (context) => ParentHomePage(dio: _dio, myId: email)
+            ),
           );
         } else {
           // 로그인 실패 시 처리
