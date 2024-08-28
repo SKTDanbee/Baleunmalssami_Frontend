@@ -27,7 +27,7 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   Future<void> fetchReportData() async {
-    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/reports/type2/';
+    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/type2/';
 
     try {
       final response = await widget.dio.get(url);

@@ -28,7 +28,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
   }
 
   Future<void> fetchFriendRequests() async {
-    const String fetchurl = 'https://3cb4-180-134-170-106.ngrok-free.app/pending_friend_requests/';
+    const String fetchurl = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/pending_friend_requests/';
 
     try {
       setState(() {
@@ -61,7 +61,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
 
 
   Future<void> handleFriendRequest(String friend) async {
-    const String handleurl = 'https://3cb4-180-134-170-106.ngrok-free.app/accept_friend_request/'; // 실제 API 엔드포인트로 변경하세요.
+    const String handleurl = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/accept_friend_request/'; // 실제 API 엔드포인트로 변경하세요.
 
     try {
       final response = await widget.dio.post(
@@ -91,7 +91,7 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
 
   Future<void> addFriend() async {
     final String email = _emailController.text;
-    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/send_friend_request/'; // 실제 API 엔드포인트로 변경하세요.
+    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/send_friend_request/'; // 실제 API 엔드포인트로 변경하세요.
 
     if (email.isEmpty) {
       return;

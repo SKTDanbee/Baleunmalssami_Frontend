@@ -25,7 +25,7 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Future<void> fetchFriendsData() async {
-    const String friendsUrl = 'https://3cb4-180-134-170-106.ngrok-free.app/friend_ranking/';
+    const String friendsUrl = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/friend_ranking/';
 
     try {
       final friendsResponse = await widget.dio.get(friendsUrl);

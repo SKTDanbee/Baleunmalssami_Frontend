@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
     String password = _passwordController.text;
 
     // 로그인 시도
-    const String url = 'https://3cb4-180-134-170-106.ngrok-free.app/login';
+    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/login';
 
     try {
       final response = await _dio.post(
