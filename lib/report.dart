@@ -5,19 +5,19 @@ import 'reportlist.dart';
 
 class ReportPage extends StatefulWidget {
   final int index;  // 추가된 부분: ReportListPage에서 전달받은 index 값
+  final Dio dio;
 
-  ReportPage({required this.index});  // index 값 필수로 받도록 생성자 수정
+  ReportPage({required this.index, required this.dio});  // index 값 필수로 받도록 생성자 수정
 
   @override
   _ReportPageState createState() => _ReportPageState();
 }
 
 class _ReportPageState extends State<ReportPage> {
-  Dio _dio = Dio();
   String? reportDate;
   String? reportContent;
   List<int> abuseWeek = [];
-  bool isLoading = false; // 로딩창!!!
+  bool isLoading = true; // 로딩창!!!
 
   @override
   void initState() {
@@ -27,10 +27,10 @@ class _ReportPageState extends State<ReportPage> {
 
   Future<void> fetchReportData() async {
     const String url =
-        'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+        'https://f4f6-180-134-170-106.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
-      final response = await _dio.get(url);
+      final response = await widget.dio.get(url);  // 전달받은 dio 객체 사용
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
@@ -53,6 +53,9 @@ class _ReportPageState extends State<ReportPage> {
         throw Exception('Failed to load reports');
       }
     } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       throw Exception('Failed to load reports: $e');
     }
   }
@@ -219,7 +222,7 @@ class _ReportPageState extends State<ReportPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ReportListPage()),
+                          builder: (context) => ReportListPage(dio: widget.dio)),
                     );
                   },
                   child: const Text(

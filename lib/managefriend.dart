@@ -6,6 +6,9 @@ import 'friends.dart';  // 친구 페이지
 import 'settings.dart';  // 설정 페이지
 
 class ManageFriendPage extends StatefulWidget {
+  final Dio dio;
+
+  ManageFriendPage({required this.dio});
   @override
   _ManageFriendPageState createState() => _ManageFriendPageState();
 }
@@ -104,13 +107,13 @@ class _ManageFriendPageState extends State<ManageFriendPage> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => HomePage(dio: _dio)),
         );
         break;
       case 1:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ReportPage(index: 0)),
+          MaterialPageRoute(builder: (context) => ReportPage(index: 0, dio: _dio)),
         );
         break;
       case 2:

@@ -83,15 +83,15 @@ class _ParentLoginPageState extends State<ParentLoginPage> {
     // 로그인 시도
     const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/parent';
 
-    // try {
-    //   final response = await _dio.post(url, data: {
-    //     'id': email, //id 바꿔봐야
-    //     'password': password,
-    //   });
-    //
-    //   if (response.statusCode == 200) {
-        const int i = 1;
-        if (i == 1) {
+    try {
+      final response = await _dio.post(url, data: {
+        'id': email, //id 바꿔봐야
+        'password': password,
+      });
+
+      if (response.statusCode == 200) {
+        // const int i = 1;
+        // if (i == 1) {
           // 로그인 성공
           Navigator.push(
             context,
@@ -104,11 +104,11 @@ class _ParentLoginPageState extends State<ParentLoginPage> {
           );
         }
     //   }
-    // } catch (e) {
-    //   // 서버 오류 또는 네트워크 오류 처리
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(content: Text('로그인 실패: 서버와 연결할 수 없습니다.')),
-    //   );
-    // }
+    } catch (e) {
+      // 서버 오류 또는 네트워크 오류 처리
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('로그인 실패: 서버와 연결할 수 없습니다.')),
+      );
+    }
   }
 }

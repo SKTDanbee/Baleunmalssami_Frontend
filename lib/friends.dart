@@ -3,16 +3,18 @@ import 'package:dio/dio.dart';
 import 'managefriend.dart';
 
 class FriendsPage extends StatefulWidget {
+  final Dio dio;
+
+  FriendsPage({required this.dio});
   @override
   _FriendsPageState createState() => _FriendsPageState();
 }
 
 class _FriendsPageState extends State<FriendsPage> {
-  Dio _dio = Dio();
   List<Map<String, dynamic>> friends = [];
   int? myAbuseCount;
   String? myName;
-  bool isLoading = false;
+  bool isLoading = true; // Set loading to true initially
 
   @override
   void initState() {
@@ -21,40 +23,13 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 
   Future<void> fetchFriendsData() async {
-    const String myUrl = 'https://your-api-url/children/';  // reports API 엔드포인트
-    const String reportsUrl = 'https://your-api-url/reports/';  // reports API 엔드포인트
-    const String friendsUrl = 'https://your-api-url/friends/';  // friends API 엔드포인트
+    const String friendsUrl = 'https://f4f6-180-134-170-106.ngrok-free.app/friend_ranking/';  // reports API 엔드포인트
 
     try {
-      // reports 테이블의 0번 인덱스 데이터를 가져옴 (자신의 abuseCount)
-      final myResponse = await _dio.get(myUrl);
-      if (myResponse.statusCode == 200) {
-        myName = myResponse.data[0]['name'];
-      } else {
-        throw Exception('Failed to load data');
-      }
-
-      // reports 테이블의 0번 인덱스 데이터를 가져옴 (자신의 abuseCount)
-      final reportsResponse = await _dio.get(reportsUrl);
-      if (reportsResponse.statusCode == 200) {
-        myAbuseCount = reportsResponse.data[0]['abuse_count'];
-      } else {
-        throw Exception('Failed to load data');
-      }
-
-      // friends 테이블의 데이터를 가져옴
-      final friendsResponse = await _dio.get(friendsUrl);
+      // Get friends data from the friends table
+      final friendsResponse = await widget.dio.get(friendsUrl);
       if (friendsResponse.statusCode == 200) {
         friends = List<Map<String, dynamic>>.from(friendsResponse.data);
-
-        // 자신의 데이터를 friends 리스트에 추가
-        friends.add({
-          "name": myName,
-          "abuse_count": myAbuseCount,
-        });
-
-        // abuseCount가 작은 순서대로 친구들을 정렬
-        friends.sort((a, b) => a['abuse_count'].compareTo(b['abuse_count']));
 
         setState(() {
           isLoading = false;
@@ -63,11 +38,12 @@ class _FriendsPageState extends State<FriendsPage> {
         throw Exception('Failed to load friends data');
       }
     } catch (e) {
-      throw Exception('Error: $e');
-      // print('Error: $e');
-      // setState(() {
-      //   isLoading = false;
-      // });
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error loading data: $e')),
+      );
     }
   }
 
@@ -137,7 +113,7 @@ class _FriendsPageState extends State<FriendsPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ManageFriendPage()
+                        builder: (context) => ManageFriendPage(dio: widget.dio),
                       ),
                     );
                   },

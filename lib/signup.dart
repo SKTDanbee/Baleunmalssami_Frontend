@@ -211,7 +211,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
 // 데이터베이스 연결
  Future<bool> registerUser(String email, String name, String password, String phone) async {
-   const String apiUrl = "https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/children/";
+   const String apiUrl = "https://f4f6-180-134-170-106.ngrok-free.app/children/";
 
    final response = await http.post(
      Uri.parse(apiUrl),

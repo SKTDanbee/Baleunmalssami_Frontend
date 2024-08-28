@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'report.dart';  // report.dart 파일로 직접 연결
-import 'friends.dart';  // 친구 페이지
-import 'settings.dart';  // 설정 페이지
+import 'report.dart';
+import 'friends.dart';
+import 'settings.dart';
 import 'package:dio/dio.dart';
 
 class ReportListPage extends StatefulWidget {
+  final Dio dio;
+
+  ReportListPage({required this.dio});
+
   @override
   _ReportListPageState createState() => _ReportListPageState();
 }
 
 class _ReportListPageState extends State<ReportListPage> {
-  int _selectedIndex = 1;  // 레포트 탭이 기본 선택
-
-  Dio _dio = Dio();
+  int _selectedIndex = 1;
   List<String> dateList = [];
   List<int> abuseWeek = [];
-  bool isLoading = true; //로딩창!!!
+  bool isLoading = true; // 로딩창!!!
 
   @override
   void initState() {
@@ -25,10 +27,10 @@ class _ReportListPageState extends State<ReportListPage> {
   }
 
   Future<void> fetchReportData() async {
-    const String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
+    const String url = 'https://f4f6-180-134-170-106.ngrok-free.app/reports/'; // 모든 레코드를 가져오는 API 엔드포인트
 
     try {
-      final response = await _dio.get(url);
+      final response = await widget.dio.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
@@ -48,10 +50,12 @@ class _ReportListPageState extends State<ReportListPage> {
         throw Exception('Failed to load reports');
       }
     } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       throw Exception('Failed to load reports: $e');
     }
   }
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -62,16 +66,16 @@ class _ReportListPageState extends State<ReportListPage> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => HomePage(dio: widget.dio)),
         );
         break;
       case 1:
-      // 리포트 페이지 연결 수정 필요
+      // 현재 페이지
         break;
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => FriendsPage()),
+          MaterialPageRoute(builder: (context) => FriendsPage(dio: widget.dio)),
         );
         break;
       case 3:
@@ -115,6 +119,7 @@ class _ReportListPageState extends State<ReportListPage> {
                   MaterialPageRoute(
                     builder: (context) => ReportPage(
                       index: index,
+                      dio: widget.dio,
                     ),
                   ),
                 );
@@ -201,5 +206,3 @@ class _ReportListPageState extends State<ReportListPage> {
     );
   }
 }
-
-

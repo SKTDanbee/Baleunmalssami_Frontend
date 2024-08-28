@@ -39,7 +39,7 @@ class MainPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()), // 학생 회원가입 페이지
+                  MaterialPageRoute(builder: (context) => SignUpPage()), // 학생 회원가입 페이지
                 );
               },
               style: ElevatedButton.styleFrom(

@@ -5,17 +5,20 @@ import 'settings.dart';
 import 'package:dio/dio.dart';
 
 class HomePage extends StatefulWidget {
+  final Dio dio;
+
+  HomePage({required this.dio});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  Dio _dio = Dio();
   int? abuseCounts;
   int? abuseCounts_last;
   String? reportDate;
   int _selectedIndex = 0;
-  bool isLoading = false; // 로딩창!!!
+  bool isLoading = true; // 로딩창!!!
 
   @override
   void initState() {
@@ -24,10 +27,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchReportData() async {
-    final String url = 'https://ansim-app-f6abfdhmexe8ged3.koreacentral-01.azurewebsites.net/reports/'; // 여기에 실제 데이터베이스 URL을 입력하세요.
+    final String url = 'https://f4f6-180-134-170-106.ngrok-free.app/reports/';
 
     try {
-      final response = await _dio.get(url);
+      final response = await widget.dio.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = response.data;
@@ -42,6 +45,9 @@ class _HomePageState extends State<HomePage> {
         throw Exception('Failed to load reports');
       }
     } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       throw Exception('Failed to load reports: $e');
     }
   }
@@ -61,9 +67,10 @@ class _HomePageState extends State<HomePage> {
         abuseCounts: abuseCounts,
         abuseCounts_last: abuseCounts_last,
         reportDate: reportDate,
+        dio: widget.dio, // Dio 객체 전달
       ),
-      ReportPage(index: 0),
-      FriendsPage(),
+      ReportPage(index: 0, dio: widget.dio),
+      FriendsPage(dio: widget.dio),
       SettingsPage(),
     ];
 
@@ -130,11 +137,13 @@ class HomePageContent extends StatelessWidget {
   final int? abuseCounts;
   final int? abuseCounts_last;
   final String? reportDate;
+  final Dio dio;
 
   HomePageContent({
     required this.abuseCounts,
     required this.abuseCounts_last,
     required this.reportDate,
+    required this.dio,
   });
 
   @override
@@ -249,7 +258,7 @@ class HomePageContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ReportPage(index: 0)),
+                            builder: (context) => ReportPage(index: 0, dio: dio)),
                       );
                     },
                     child: Card(
@@ -294,7 +303,7 @@ class HomePageContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FriendsPage()),
+                            builder: (context) => FriendsPage(dio: dio)),
                       );
                     },
                     child: Card(

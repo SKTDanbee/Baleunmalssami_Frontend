@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'home.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,6 +13,13 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   Dio _dio = Dio();
+  CookieJar cookieJar = CookieJar();
+
+  @override
+  void initState() {
+    super.initState();
+    _dio.interceptors.add(CookieManager(cookieJar)); // 쿠키 관리 추가
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,27 +93,32 @@ class _LoginPageState extends State<LoginPage> {
     const String url = 'https://f4f6-180-134-170-106.ngrok-free.app/login';
 
     try {
-      final response = await _dio.post(url, data: {
-        'id': email, //id 바꿔봐야
-        'password': password,
-      });
+      final response = await _dio.post(
+        url,
+        data: {
+          'username': email,
+          'password': password,
+        },
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType, // Form URL Encoded 설정
+        ),
+      );
 
       if (response.statusCode == 200) {
-        // const int i = 1;
-        // if (i == 1) {
-          // 로그인 성공
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-          );
-        } else {
-          // 로그인 실패 시 처리
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('로그인 실패: 잘못된 이메일 또는 비밀번호입니다.')),
-          );
-        //}
+        // 로그인 성공
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(dio: _dio), // Dio 인스턴스를 HomePage로 전달
+          ),
+        );
+      } else {
+        // 로그인 실패 시 처리
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('로그인 실패: 잘못된 이메일 또는 비밀번호입니다.')),
+        );
       }
-    }catch (e) {
+    } catch (e) {
       // 서버 오류 또는 네트워크 오류 처리
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('로그인 실패: 서버와 연결할 수 없습니다.')),
