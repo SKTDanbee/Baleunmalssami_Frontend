@@ -45,13 +45,13 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
           isLoading = false;
         });
       } else {
-        throw Exception('Failed to load reports');
+        throw Exception('레포트를 불러오지 못했습니다.');
       }
     } catch (e) {
       setState(() {
         isLoading = false;
       });
-      throw Exception('Failed to load reports: $e');
+      throw Exception('레포트를 불러오지 못했습니다.: $e');
     }
   }
 
@@ -95,7 +95,7 @@ class _ParentCyberReportPageState extends State<ParentCyberReportPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          '사이버 폭력 주의',
+                          '사이버 폭력 레포트',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

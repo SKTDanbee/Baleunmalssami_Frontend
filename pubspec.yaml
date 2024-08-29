@@ -67,8 +67,7 @@ flutter:
     - assets/images/settings.png
     - assets/images/home.png
     - assets/images/friends.png
-    - app/send.py
-    - assets/texts.txt
+    - assets/icon/ic_launcher.png
 
   fonts:
     - family : GmarketSans

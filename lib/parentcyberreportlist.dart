@@ -18,7 +18,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
   int _selectedIndex = 1;  // 레포트 탭이 기본 선택
 
   List<String> dateList = [];
-  List<String> cyberdegree = [];
+  List<String> cyberdegree = ['높음', '중간', '낮음', '중간'];
   bool isLoading = true; //로딩창!!!
 
   @override
@@ -38,11 +38,11 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
 
         setState(() {
           dateList.clear();
-          cyberdegree.clear();
+          //cyberdegree.clear();
 
           for (var report in data) {
             dateList.add(report['report_date']);
-            cyberdegree.add(report['report_degree']);
+            //cyberdegree.add(report['report_degree']);
           }
 
           isLoading = false;

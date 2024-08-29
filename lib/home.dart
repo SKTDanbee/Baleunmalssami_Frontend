@@ -355,7 +355,7 @@ class HomePageContent extends StatelessWidget {
               child: TextButton(
                 onPressed: () {
                   // 지난 레포트 보기 페이지로 이동하는 로직
-
+                  _send(context);
                 },
                 child: const Text(
                   '레포트 갱신하기 >',
@@ -371,6 +371,33 @@ class HomePageContent extends StatelessWidget {
       ),
       backgroundColor: const Color(0xFFF5F5F5),
     );
+  }
+
+  void _send(BuildContext context) async {
+
+    // 로그인 시도
+    const String url = 'https://ansim-reportllm-app-b2f0bhf0axaacca0.koreacentral-01.azurewebsites.net/save-and-report?child_id=test_user_id&kind=2';
+
+    try {
+      final response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        // 로그인 성공
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('새로운 레포트가 작성되었습니다.')),
+        );
+      } else {
+        // 로그인 실패 시 처리
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('새로운 레포트를 작성할 수 없습니다.')),
+        );
+      }
+    } catch (e) {
+      // 서버 오류 또는 네트워크 오류 처리
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('서버와 연결할 수 없습니다.')),
+      );
+    }
   }
 }
 
