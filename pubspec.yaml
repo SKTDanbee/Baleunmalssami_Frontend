@@ -44,6 +44,21 @@ dependencies:
   dio: ^5.6.0
   dio_cookie_manager: ^2.0.0
   cookie_jar: ^3.0.1
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.1
+
+flutter_native_splash:
+  color: "ffffff"
+  image: assets/icon/splash.png
+
+  android_12:
+    color: "ffffff"
+    image: assets/icon/splash.png
+
+#  android_12:
+#    color: "42a5f5"
+#    image: assets/icon/splash.png
+#    branding: assets/icon/splash.png
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +83,7 @@ flutter:
     - assets/images/home.png
     - assets/images/friends.png
     - assets/icon/ic_launcher.png
+    - assets/icon/splash.png
 
   fonts:
     - family : GmarketSans

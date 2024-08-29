@@ -18,7 +18,7 @@ class _ParentCyberReportListPageState extends State<ParentCyberReportListPage> {
   int _selectedIndex = 1;  // 레포트 탭이 기본 선택
 
   List<String> dateList = [];
-  List<String> cyberdegree = ['높음', '중간', '낮음', '중간'];
+  List<String> cyberdegree = ['낮음', '낮음', '높음', '중간', '중간', '낮음', '중간'];
   bool isLoading = true; //로딩창!!!
 
   @override
